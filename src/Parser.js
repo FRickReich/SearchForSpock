@@ -2,11 +2,12 @@
 
 module.exports = class Parser
 {
-    constructor(input)
+    constructor(input, string)
     {
         this.tokens = input;
         this.currentTokenId = 0;
-        this.arm = { search: [  ]  };
+        this.arm = { string , query: [  ]  };
+        this.fullOutput = [  ];
 
         this.activeToken = null;
     }
@@ -15,7 +16,9 @@ module.exports = class Parser
     {
         this.tokenTypeChecker();
 
-        return this.arm;
+        this.fullOutput.push(this.arm);
+
+        return this.fullOutput;
     }
 
     tokenTypeChecker()
@@ -27,13 +30,13 @@ module.exports = class Parser
             case 'identifier':
                 if(this.activeToken == null)
                 {
-                    this.arm.search.push(this.tokens[ this.currentTokenId ]);
+                    this.arm.query.push(this.tokens[ this.currentTokenId ]);
                     this.activeToken = this.tokens[ this.currentTokenId ].id;
                     this.currentTokenId++;
                 }
                 else
                 {
-                    this.arm.search.forEach((element) =>
+                    this.arm.query.forEach((element) =>
                     {
                         if(element.id === this.activeToken && element.type === 'operator')
                         {
@@ -45,7 +48,7 @@ module.exports = class Parser
                 }
                 break;
             case 'literal':
-                this.arm.search.forEach((element) =>
+                this.arm.query.forEach((element) =>
                 {
                     if(element.id === this.activeToken && element.type === 'identifier')
                     {
@@ -65,7 +68,7 @@ module.exports = class Parser
             case 'operator':
                 if(this.activeToken == null)
                 {
-                    this.arm.search.push(this.tokens[ this.currentTokenId ]);
+                    this.arm.query.push(this.tokens[ this.currentTokenId ]);
                     this.activeToken = this.tokens[ this.currentTokenId ].id;
                     this.currentTokenId++;
                 }
