@@ -5,15 +5,14 @@ module.exports = class Tokenizer
     constructor(input)
     {
         this.input = input;
-
         this.letterPosition = 0;
-        this.letterArray = [  ];
         this.letters = '';
-        
         this.tokenId = 0;
+        this.letterArray = [  ];
         this.tokenPositions = [  ];
         this.tokens = [  ];
 
+        // Define token types.
         this.tokenTypes = 
         {
             identifier: 'identifier',
@@ -76,19 +75,22 @@ module.exports = class Tokenizer
                 const val = this.letters.replace(/\:/, '');
                 
                 this.createToken(this.tokenTypes.identifier, val);
+
                 break;
 
             // Current letters content equals '(':
             case /\(/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.seperatorLeft, '(');
+
                 break;
             
             // Current letters content equals ')':
             case /\)/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.seperatorRight, ')');
+
                 break;
 
-            // Current letters content is whitespace only:
+            // Current letters content is clean whitespace:
             case /\s/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.whitespace);
                 break;
@@ -102,21 +104,24 @@ module.exports = class Tokenizer
             this.cycleThroughInput(this.letterPosition);
         }
     }
-
+ 
     /* Creates token from input and pushes it to token array */
     createToken(type, value)
     {
         let pos = this.tokenPositions;
 
-        this.tokenId++;
-
-        this.tokens.push({
-            'id': this.tokenId,
-            'type': type,
-            'start': pos[ 0 ],
-            'end': pos[ pos.length - 1 ],
-            'value': value
-        });
+        if(type !== 'whitespace')
+        {
+            this.tokenId++;
+            
+            this.tokens.push({
+                'id': this.tokenId,
+                'type': type,
+                'start': pos[ 0 ],
+                'end': pos[ pos.length - 1 ],
+                'value': value
+            });
+        }
 
         this.tokenPositions = [  ];
         this.letters = '';

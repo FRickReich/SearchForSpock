@@ -5,11 +5,10 @@ module.exports = class Parser
     constructor(input, string)
     {
         this.tokens = input;
+        this.activeToken = null;
         this.currentTokenId = 0;
         this.arm = { string , query: [  ]  };
         this.fullOutput = [  ];
-
-        this.activeToken = null;
     }
 
     parseTokens()
