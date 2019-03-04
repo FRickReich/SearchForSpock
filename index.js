@@ -15,6 +15,6 @@ const Interpreter = require('./src/Interpreter');
 // seperator -> creates a block: type, start, end, value
 // string -> does not delete whitespace inside of "...", type, start, end, value
 
-const testString = `a: 42 and b: 3`;
+const testString = `a: 42 and b: 3 or c: 4`;
 
 const interpreter = new Interpreter(testString).start();
