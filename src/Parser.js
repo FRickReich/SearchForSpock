@@ -45,7 +45,9 @@ module.exports = class Parser
                         }
                     });
                 }
+
                 break;
+
             case 'literal':
                 this.arm.query.forEach((element) =>
                 {
@@ -61,9 +63,11 @@ module.exports = class Parser
                         this.activeToken = null;
                         this.currentTokenId++;
                     }
-                    
+
                 });
+
                 break;
+
             case 'operator':
                 if(this.activeToken == null)
                 {
@@ -71,17 +75,24 @@ module.exports = class Parser
                     this.activeToken = this.tokens[ this.currentTokenId ].id;
                     this.currentTokenId++;
                 }
+
                 break;
+
             case 'seperatorLeft':
                 this.activeToken = this.tokens[ this.currentTokenId ].id;
                 this.currentTokenId++;
+
                 break;
+
             case 'seperatorRight':
                 this.activeToken = null;
                 this.currentTokenId++;
+
                 break;
+
             case 'whitespace':
                 this.currentTokenId++;
+
                 break;
         }
 

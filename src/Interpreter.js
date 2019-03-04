@@ -15,9 +15,9 @@ module.exports = class Interpreter
     {
         const tokenizer = new Tokenizer(this.input);
         this.tokens = tokenizer.readInput();
-        
+
         const parser = new Parser(this.tokens, this.input);
-        
+
         console.log(JSON.stringify(parser.parseTokens()));
     }
 }
