@@ -7,7 +7,7 @@
     content and creates json objects out of it.
 */
 
-module.exports = class Tokenizer
+class Tokenizer
 {
     constructor(input)
     {
@@ -134,3 +134,5 @@ module.exports = class Tokenizer
         this.letters = '';
     }
 }
+
+module.exports = Tokenizer;

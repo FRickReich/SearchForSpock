@@ -5,7 +5,7 @@
     sorts every entry according to its type, content and position.
     Then it creates an AST array and sends it back to the interpreter.
 */
-module.exports = class Parser
+class Parser
 {
     constructor(input, string)
     {
@@ -71,7 +71,6 @@ module.exports = class Parser
                         this.activeToken = null;
                         this.currentTokenId++;
                     }
-
                 });
 
                 break;
@@ -114,3 +113,5 @@ module.exports = class Parser
         }
     }
 }
+
+module.exports = Parser;

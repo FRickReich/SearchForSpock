@@ -16,11 +16,9 @@ const Interpreter = require('./src/Interpreter');
 // string -> does not delete whitespace inside of "...", type, start, end, value
 
 const testString = `
-    userId: scott.tiger@idontknow.com
-    or customerId: acme_us
-    and createdAt: 20929283474
-    or tenantId: OpusCapita
-    and yourmom: isAKlingon
+    captainId: james.kirk@starfleet.com
+    or
+    captainId: kaaaaaaaaaaaaahn@botany-bay.com
 `;
 
 const interpreter = new Interpreter(testString).start();

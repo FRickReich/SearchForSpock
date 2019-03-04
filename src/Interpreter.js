@@ -9,7 +9,7 @@ const Parser = require('./Parser');
     hands the parsed output to a return statement as json object.
 */
 
-module.exports = class Interpreter
+class Interpreter
 {
     constructor(input)
     {
@@ -27,3 +27,5 @@ module.exports = class Interpreter
         return JSON.stringify(parser.parseTokens());
     }
 }
+
+module.exports = Interpreter;
