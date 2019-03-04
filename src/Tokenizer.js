@@ -1,0 +1,108 @@
+'use strict';
+
+module.exports = class Tokenizer
+{
+    constructor(input)
+    {
+        this.input = input;
+
+        this.letterPosition = 0;
+        this.letterArray = [  ];
+        this.letters = '';
+        
+        this.tokenId = 0;
+        this.tokenPositions = [  ];
+        this.tokens = [  ];
+        this.tokenTypes = 
+        {
+            identifier: 'identifier',
+            literal: 'literal',
+            operator: 'operator',
+            seperatorLeft: 'seperatorLeft',
+            seperatorRight: 'seperatorRight',
+            whitespace: 'whitespace'
+        }
+    }
+
+    readInput()
+    {
+        this.letterArray = this.input.split('');
+
+        this.checkPosition(this.letterPosition);
+
+        //console.log(JSON.stringify(this.tokens));
+        return this.tokens;
+    }
+
+    checkPosition(pos)
+    {
+        this.letters += this.letterArray[ pos ];
+        this.tokenPositions.push(pos);
+
+        switch(true)
+        {
+            case /[a-zA-Z]/.test(this.letterArray[ pos ]):
+                if(this.letters.indexOf('and') !== - 1 || 
+                   this.letters.indexOf('or') !== - 1)
+                {
+                    this.createToken(this.tokenTypes.operator, this.letters);
+                }
+                else if(/\s/.test(this.letterArray[ pos + 1 ]) || 
+                        /\)/.test(this.letterArray[ pos + 1 ]) || 
+                        typeof this.letterArray[ pos + 1 ] == 'undefined')
+                {
+                    this.createToken(this.tokenTypes.literal, this.letters);
+                }
+
+                break;
+            case /[0-9]/.test(this.letterArray[ pos ]):
+                if(/\s/.test(this.letterArray[ pos + 1 ]) || 
+                   /\)/.test(this.letterArray[ pos + 1 ]) || 
+                   typeof this.letterArray[ pos + 1 ] == 'undefined')
+                {
+                    this.createToken(this.tokenTypes.literal, this.letters);
+                }
+
+                break;
+            case /\:/.test(this.letterArray[ pos ]):
+                const val = this.letters.replace(/\:/, '');
+                
+                this.createToken(this.tokenTypes.identifier, val);
+                break;
+            case /\(/.test(this.letterArray[ pos ]):
+                this.createToken(this.tokenTypes.seperatorLeft, '(');
+                break;
+            case /\)/.test(this.letterArray[ pos ]):
+                this.createToken(this.tokenTypes.seperatorRight, ')');
+                break;
+            case /\s/.test(this.letterArray[ pos ]):
+                this.createToken(this.tokenTypes.whitespace);
+                break;
+        }
+        
+        if(this.letterPosition < this.letterArray.length -1)
+        {
+            this.letterPosition++;
+            
+            this.checkPosition(this.letterPosition);
+        }
+    }
+
+    createToken(type, value)
+    {
+        let pos = this.tokenPositions;
+
+        this.tokenId++;
+
+        this.tokens.push({
+            'id': this.tokenId,
+            'type': type,
+            'start': pos[ 0 ],
+            'end': pos[ pos.length - 1 ],
+            'value': value
+        });
+
+        this.tokenPositions = [  ];
+        this.letters = '';
+    }
+}
