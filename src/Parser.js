@@ -38,7 +38,7 @@ class Parser
                 {
                     this.arm.query.push(this.tokens[ this.currentTokenId ]);
                     this.activeToken = this.tokens[ this.currentTokenId ].id;
-                    this.currentTokenId++;
+                    this.currentTokenId ++;
                 }
                 else
                 {
@@ -48,7 +48,7 @@ class Parser
                         {
                             element.child = this.tokens[ this.currentTokenId ];
                             this.activeToken = this.tokens[ this.currentTokenId ].id;
-                            this.currentTokenId++;
+                            this.currentTokenId ++;
                         }
                     });
                 }
@@ -63,13 +63,13 @@ class Parser
                     {
                         element.child = this.tokens[ this.currentTokenId ];
                         this.activeToken = null;
-                        this.currentTokenId++;
+                        this.currentTokenId ++;
                     }
                     else if(element.child.id === this.activeToken && element.child.type === 'identifier')
                     {
                         element.child.child = this.tokens[ this.currentTokenId ];
                         this.activeToken = null;
-                        this.currentTokenId++;
+                        this.currentTokenId ++;
                     }
                 });
 
@@ -81,7 +81,7 @@ class Parser
                 {
                     this.arm.query.push(this.tokens[ this.currentTokenId ]);
                     this.activeToken = this.tokens[ this.currentTokenId ].id;
-                    this.currentTokenId++;
+                    this.currentTokenId ++;
                 }
 
                 break;
@@ -89,20 +89,20 @@ class Parser
             // Type is 'seperator' on left side:
             case 'seperatorLeft':
                 this.activeToken = this.tokens[ this.currentTokenId ].id;
-                this.currentTokenId++;
+                this.currentTokenId ++;
 
                 break;
 
             // Type is 'seperator' on right side:
             case 'seperatorRight':
                 this.activeToken = null;
-                this.currentTokenId++;
+                this.currentTokenId ++;
 
                 break;
 
             // Type is 'whitespace' (and can be ignored):
             case 'whitespace':
-                this.currentTokenId++;
+                this.currentTokenId ++;
 
                 break;
         }

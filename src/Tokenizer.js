@@ -19,7 +19,6 @@ class Tokenizer
         this.tokenPositions = [  ];
         this.tokens = [  ];
 
-        // Define token types.
         this.tokenTypes =
         {
             identifier: 'identifier',
@@ -106,7 +105,7 @@ class Tokenizer
         // Repeat iteration until end of input array.
         if(this.letterPosition < this.letterArray.length -1)
         {
-            this.letterPosition++;
+            this.letterPosition ++;
 
             this.cycleThroughInput(this.letterPosition);
         }
@@ -119,7 +118,7 @@ class Tokenizer
 
         if(type !== 'whitespace')
         {
-            this.tokenId++;
+            this.tokenId ++;
 
             this.tokens.push({
                 'id': this.tokenId,
