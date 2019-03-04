@@ -1,5 +1,10 @@
 'use strict';
 
+/*
+    The parser takes the output from the tokenizer and 
+    sorts every entry according to its type, content and position.
+    Then it creates an AST array and sends it back to the interpreter.
+*/
 module.exports = class Parser
 {
     constructor(input, string)
@@ -20,12 +25,14 @@ module.exports = class Parser
         return this.fullOutput;
     }
 
+    /* Checks tokentype, adds the token to the ARM and cycles to next token if availible. */
     tokenTypeChecker()
     {
         let lastTokenId = this.currentTokenId;
 
         switch(this.tokens[ this.currentTokenId ].type)
         {
+            // Type is 'identifier':
             case 'identifier':
                 if(this.activeToken == null)
                 {
@@ -48,6 +55,7 @@ module.exports = class Parser
 
                 break;
 
+            // Type is 'literal':
             case 'literal':
                 this.arm.query.forEach((element) =>
                 {
@@ -68,6 +76,7 @@ module.exports = class Parser
 
                 break;
 
+            // Type is 'operator':
             case 'operator':
                 if(this.activeToken == null)
                 {
@@ -78,18 +87,21 @@ module.exports = class Parser
 
                 break;
 
+            // Type is 'seperator' on left side:
             case 'seperatorLeft':
                 this.activeToken = this.tokens[ this.currentTokenId ].id;
                 this.currentTokenId++;
 
                 break;
 
+            // Type is 'seperator' on right side:
             case 'seperatorRight':
                 this.activeToken = null;
                 this.currentTokenId++;
 
                 break;
 
+            // Type is 'whitespace' (and can be ignored):
             case 'whitespace':
                 this.currentTokenId++;
 

@@ -5,7 +5,7 @@ const Interpreter = require('./src/Interpreter');
 // 1. Lexical Analysis
 //    - Breaks input into elements (Lexemes) and generates a list of tokens.
 
-// 2. Syntax Analysis
+// 2. Syntax Analysis / Parser
 //    - Generates an AST (Abstract Syntax Tree).
 
 // AST:
@@ -15,6 +15,13 @@ const Interpreter = require('./src/Interpreter');
 // seperator -> creates a block: type, start, end, value
 // string -> does not delete whitespace inside of "...", type, start, end, value
 
-const testString = `userId: scott.tiger@idontknow.com and customerId: acme_us`;
+const testString = `
+    userId: scott.tiger@idontknow.com
+    or customerId: acme_us
+    and createdAt: 20929283474
+    or tenantId: OpusCapita
+    and yourmom: isAKlingon
+`;
 
-new Interpreter(testString).start();
+const interpreter = new Interpreter(testString).start();
+console.log(interpreter);

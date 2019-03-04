@@ -3,6 +3,12 @@
 const Tokenizer = require('./Tokenizer');
 const Parser = require('./Parser');
 
+/*
+    This is the starting point of the language interpreter,
+    it catches the input and passes it on to the tokenizer and
+    hands the parsed output to a return statement as json object.
+*/
+
 module.exports = class Interpreter
 {
     constructor(input)
@@ -18,6 +24,6 @@ module.exports = class Interpreter
 
         const parser = new Parser(this.tokens, this.input);
 
-        console.log(JSON.stringify(parser.parseTokens()));
+        return JSON.stringify(parser.parseTokens());
     }
 }

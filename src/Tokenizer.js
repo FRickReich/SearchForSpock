@@ -1,5 +1,12 @@
 'use strict';
 
+/*
+    The tokenizer takes the input string from the Interpreter and
+    creates an array out of every character.
+    It then creates sorts each input according to its type and
+    content and creates json objects out of it.
+*/
+
 module.exports = class Tokenizer
 {
     constructor(input)
