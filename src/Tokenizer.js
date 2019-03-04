@@ -13,6 +13,7 @@ module.exports = class Tokenizer
         this.tokenId = 0;
         this.tokenPositions = [  ];
         this.tokens = [  ];
+
         this.tokenTypes = 
         {
             identifier: 'identifier',
@@ -24,23 +25,26 @@ module.exports = class Tokenizer
         }
     }
 
+    /* Reads input, splits it into array of characters. */
     readInput()
     {
         this.letterArray = this.input.split('');
 
-        this.checkPosition(this.letterPosition);
+        this.cycleThroughInput(this.letterPosition);
 
-        //console.log(JSON.stringify(this.tokens));
         return this.tokens;
     }
 
-    checkPosition(pos)
+    /* Iterates throught character array, decides token type for each entry. */
+    cycleThroughInput(pos)
     {
+        // Add current character to letter-list.
         this.letters += this.letterArray[ pos ];
         this.tokenPositions.push(pos);
 
         switch(true)
         {
+            // Current letters content equals 'and', 'or' or literal by letter:
             case /[a-zA-Z]/.test(this.letterArray[ pos ]):
                 if(this.letters.indexOf('and') !== - 1 || 
                    this.letters.indexOf('or') !== - 1)
@@ -55,6 +59,8 @@ module.exports = class Tokenizer
                 }
 
                 break;
+
+            // Current letters content equals literal by number:
             case /[0-9]/.test(this.letterArray[ pos ]):
                 if(/\s/.test(this.letterArray[ pos + 1 ]) || 
                    /\)/.test(this.letterArray[ pos + 1 ]) || 
@@ -64,30 +70,40 @@ module.exports = class Tokenizer
                 }
 
                 break;
+            
+            // Current letters content equals ':':
             case /\:/.test(this.letterArray[ pos ]):
                 const val = this.letters.replace(/\:/, '');
                 
                 this.createToken(this.tokenTypes.identifier, val);
                 break;
+
+            // Current letters content equals '(':
             case /\(/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.seperatorLeft, '(');
                 break;
+            
+            // Current letters content equals ')':
             case /\)/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.seperatorRight, ')');
                 break;
+
+            // Current letters content is whitespace only:
             case /\s/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.whitespace);
                 break;
         }
         
+        // Repeat iteration until end of input array.
         if(this.letterPosition < this.letterArray.length -1)
         {
             this.letterPosition++;
             
-            this.checkPosition(this.letterPosition);
+            this.cycleThroughInput(this.letterPosition);
         }
     }
 
+    /* Creates token from input and pushes it to token array */
     createToken(type, value)
     {
         let pos = this.tokenPositions;
