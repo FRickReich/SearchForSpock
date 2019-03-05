@@ -16,8 +16,6 @@ class Parser
         this.fullOutput = [  ];
     }
 
-    
-
     parseTokens()
     {
         this.tokenTypeChecker();
@@ -31,6 +29,9 @@ class Parser
     tokenTypeChecker()
     {
         let lastTokenId = this.currentTokenId;
+
+        //console.log(this.tokens[ this.currentTokenId ].id + " / " + this.activeToken);
+        //console.log(this.activeToken);
 
         switch(this.tokens[ this.currentTokenId ].type)
         {
@@ -51,22 +52,19 @@ class Parser
 
             // Type is 'seperator' on left side:
             case 'seperatorLeft':
-                this.activeToken = null;
+                this.activeToken = this.tokens[ this.currentTokenId ].id;
                 this.currentTokenId ++;
-
                 break;
 
             // Type is 'seperator' on right side:
             case 'seperatorRight':
                 this.activeToken = null;
                 this.currentTokenId ++;
-
                 break;
 
             // Type is 'whitespace' (and can be ignored):
             case 'whitespace':
                 this.currentTokenId ++;
-
                 break;
         }
 
