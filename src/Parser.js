@@ -16,6 +16,8 @@ class Parser
         this.fullOutput = [  ];
     }
 
+    
+
     parseTokens()
     {
         this.tokenTypeChecker();
@@ -34,61 +36,22 @@ class Parser
         {
             // Type is 'identifier':
             case 'identifier':
-                if(this.activeToken == null)
-                {
-                    this.arm.query.push(this.tokens[ this.currentTokenId ]);
-                    this.activeToken = this.tokens[ this.currentTokenId ].id;
-                    this.currentTokenId ++;
-                }
-                else
-                {
-                    this.arm.query.forEach((element) =>
-                    {
-                        if(element.id === this.activeToken && element.type === 'operator')
-                        {
-                            element.child = this.tokens[ this.currentTokenId ];
-                            this.activeToken = this.tokens[ this.currentTokenId ].id;
-                            this.currentTokenId ++;
-                        }
-                    });
-                }
-
+                this.createIdentifier();
                 break;
 
             // Type is 'literal':
             case 'literal':
-                this.arm.query.forEach((element) =>
-                {
-                    if(element.id === this.activeToken && element.type === 'identifier')
-                    {
-                        element.child = this.tokens[ this.currentTokenId ];
-                        this.activeToken = null;
-                        this.currentTokenId ++;
-                    }
-                    else if(element.child.id === this.activeToken && element.child.type === 'identifier')
-                    {
-                        element.child.child = this.tokens[ this.currentTokenId ];
-                        this.activeToken = null;
-                        this.currentTokenId ++;
-                    }
-                });
-
+                this.createLiteral();
                 break;
 
             // Type is 'operator':
             case 'operator':
-                if(this.activeToken == null)
-                {
-                    this.arm.query.push(this.tokens[ this.currentTokenId ]);
-                    this.activeToken = this.tokens[ this.currentTokenId ].id;
-                    this.currentTokenId ++;
-                }
-
+                this.createOperator();
                 break;
 
             // Type is 'seperator' on left side:
             case 'seperatorLeft':
-                this.activeToken = this.tokens[ this.currentTokenId ].id;
+                this.activeToken = null;
                 this.currentTokenId ++;
 
                 break;
@@ -110,6 +73,60 @@ class Parser
         if(this.currentTokenId != lastTokenId && this.currentTokenId <= this.tokens.length -1)
         {
             this.tokenTypeChecker();
+        }
+    }
+
+    createIdentifier()
+    {
+        if(this.activeToken == null)
+        {
+            this.arm.query.push(this.tokens[ this.currentTokenId ]);
+            this.activeToken = this.tokens[ this.currentTokenId ].id;
+            this.currentTokenId ++;
+        }
+        else
+        {
+            this.arm.query.forEach((element) =>
+            {
+                if(element.id === this.activeToken && element.type === 'operator')
+                {
+                    element.child = this.tokens[ this.currentTokenId ];
+                    element.child.level = element.level + 1;
+                    this.activeToken = this.tokens[ this.currentTokenId ].id;
+                    this.currentTokenId ++;
+                }
+            });
+        }
+    }
+
+    createLiteral()
+    {
+        this.arm.query.forEach((element) =>
+        {
+            if(element.id === this.activeToken && element.type === 'identifier')
+            {
+                element.child = this.tokens[ this.currentTokenId ];
+                element.child.level = element.level + 1;
+                this.activeToken = null;
+                this.currentTokenId ++;
+            }
+            else if(element.child.id === this.activeToken && element.child.type === 'identifier')
+            {
+                element.child.child = this.tokens[ this.currentTokenId ];
+                element.child.child.level = element.child.level + 1;
+                this.activeToken = null;
+                this.currentTokenId ++;
+            }
+        });
+    }
+
+    createOperator()
+    {
+        if(this.activeToken == null)
+        {
+            this.arm.query.push(this.tokens[ this.currentTokenId ]);
+            this.activeToken = this.tokens[ this.currentTokenId ].id;
+            this.currentTokenId ++;
         }
     }
 }

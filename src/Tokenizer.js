@@ -46,7 +46,7 @@ class Tokenizer
         // Add current character to letter-list.
         this.letters += this.letterArray[ pos ];
         this.tokenPositions.push(pos);
-
+        
         switch(true)
         {
             // Current letters content equals 'and', 'or' or literal by letter:
@@ -123,8 +123,9 @@ class Tokenizer
             this.tokens.push({
                 'id': this.tokenId,
                 'type': type,
-                'start': pos[ 0 ],
-                'end': pos[ pos.length - 1 ],
+                //'start': pos[ 0 ],
+                //'end': pos[ pos.length - 1 ],
+                'level': 0,
                 'value': value
             });
         }
