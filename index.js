@@ -26,7 +26,7 @@ const testString = `
     )
 `;
 */
-const testString = `a: 42 and b:2`;
+const testString = `captainId: james.t.kirk@starfleet.com and captainId: kaaaaaaaaaaaaahn@botany-bay.com`;
 
 const interpreter = new Interpreter(testString).start();
 console.log(interpreter);

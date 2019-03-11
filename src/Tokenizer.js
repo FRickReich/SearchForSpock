@@ -62,7 +62,6 @@ class Tokenizer
                 {
                     this.createToken(this.tokenTypes.literal, this.letters);
                 }
-
                 break;
 
             // Current letters content equals literal by number:
@@ -73,27 +72,22 @@ class Tokenizer
                 {
                     this.createToken(this.tokenTypes.literal, this.letters);
                 }
-
                 break;
 
             // Current letters content equals ':':
             case /\:/.test(this.letterArray[ pos ]):
                 const val = this.letters.replace(/\:/, '');
-
                 this.createToken(this.tokenTypes.identifier, val);
-
                 break;
 
             // Current letters content equals '(':
             case /\(/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.seperatorLeft, '(');
-
                 break;
 
             // Current letters content equals ')':
             case /\)/.test(this.letterArray[ pos ]):
                 this.createToken(this.tokenTypes.seperatorRight, ')');
-
                 break;
 
             // Current letters content is clean whitespace:
@@ -123,8 +117,8 @@ class Tokenizer
             this.tokens.push({
                 'id': this.tokenId,
                 'type': type,
-                //'start': pos[ 0 ],
-                //'end': pos[ pos.length - 1 ],
+                'start': pos[ 0 ],
+                'end': pos[ pos.length - 1 ],
                 'level': 0,
                 'value': value
             });

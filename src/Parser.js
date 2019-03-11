@@ -12,7 +12,7 @@ class Parser
         this.tokens = input;
         this.activeToken = null;
         this.currentTokenId = 0;
-        this.arm = { string , query: [  ]  };
+        this.arm = { string , query: [  ] };
         this.fullOutput = [  ];
     }
 
