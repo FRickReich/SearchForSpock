@@ -2,12 +2,6 @@
 
 const Interpreter = require('./src/Interpreter');
 
-// 1. Lexical Analysis
-//    - Breaks input into elements (Lexemes) and generates a list of tokens.
-
-// 2. Syntax Analysis / Parser
-//    - Generates an AST (Abstract Syntax Tree).
-
 // AST:
 // identifier: type, startposition, endposition, value, body
 // operator: type, start, end, left, right, value
@@ -26,7 +20,8 @@ const testString = `
     )
 `;
 */
-const testString = `captainId: james.t.kirk@starfleet.com and captainId: kaaaaaaaaaaaaahn@botany-bay.com`;
+
+const testString = `a: james.kirk@starfleet.com and b: just@sisko.com`;
 
 const interpreter = new Interpreter(testString).start();
 console.log(interpreter);
