@@ -18,6 +18,7 @@ class Tokenizer
         this.letterArray = [  ];
         this.tokenPositions = [  ];
         this.tokens = [  ];
+        this.level = 0;
 
         this.tokenTypes =
         {
@@ -82,12 +83,14 @@ class Tokenizer
 
             // Current letters content equals '(':
             case /\(/.test(this.letterArray[ pos ]):
-                this.createToken(this.tokenTypes.seperatorLeft, '(');
+                //this.createToken(this.tokenTypes.seperatorLeft, '(');
+                this.skipToken
                 break;
 
             // Current letters content equals ')':
             case /\)/.test(this.letterArray[ pos ]):
-                this.createToken(this.tokenTypes.seperatorRight, ')');
+                //this.createToken(this.tokenTypes.seperatorRight, ')');
+                this.skipToken()
                 break;
 
             // Current letters content is clean whitespace:
@@ -105,22 +108,47 @@ class Tokenizer
         }
     }
 
+    skipToken()
+    {
+        this.level = this.tokenId;
+        this.tokenId ++;
+    }
+
     /* Creates token from input and pushes it to token array */
     createToken(type, value)
     {
-        let pos = this.tokenPositions;
-
+        let parentId = 0;
         if(type !== 'whitespace')
         {
+            if(type === 'identifier')
+            {
+                parentId = this.tokenId;
+            }
+            else if(type === 'literal')
+            {
+                parentId = this.tokenId;
+            }
+            else if(type === 'operator')
+            {
+                parentId = this.tokenId - 2;
+            }
+            else if(type === 'seperatorLeft')
+            {
+                parentId = this.tokenId;
+                this.level = this.tokenId;
+            }
+            else if(type === 'seperatorRight')
+            {
+                parentId = this.level;
+            }
+            
             this.tokenId ++;
-
+            
             this.tokens.push({
-                'id': this.tokenId,
-                'type': type,
-                'start': pos[ 0 ],
-                'end': pos[ pos.length - 1 ],
-                'level': 0,
-                'value': value
+                id: this.tokenId,
+                type: type,
+                value: value,
+                parent: parentId
             });
         }
 
