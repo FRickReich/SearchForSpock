@@ -31,48 +31,36 @@ const testString = `
 
 /* 
     PREDICTION:
-    │
-    └── type: identifier
-    │   value: captainId
-    │   │
-    │   └── type: literal
-    │       value: james.kirk@starfleet.com
-    │
-    └── type: operator
-        value: and
-        │
-        └── type: identifier 
-        │   value: captainId
-        │   │
-        │   └── type: literal
-        │       value: kaaaaaaaahn@botany-bay.com
-        │
-        └── type: operator
-            value: or
-            │
-            └── type: identifier
-            │   value: captainId
-            │   │
-            │   └── type: literal
-            │       value: just@sisko.com
-            │
-            └── type: operator
-                value: and
-                │
-                └── type: identifier
-                    value: captainId
-                │   │
-                │   └── type: literal
-                │       value: earlGrayHot@chateau-picard.com
-                │
-                └── type: operator
-                    value: or
-                    │
-                    └── type: identifier
-                        value: captainId
-                        │
-                        └── type: literal
-                            value: janeway@coffee-chaos.com
+    ┳
+    ┃
+    ┣━━━┳━━━ type: identifier
+    ┃   ┣━━━ value: captainId
+    ┃   ┗━━━┳━━━ type: literal
+    ┃       ┗━━━ value: james.kirk@starfleet.com
+    ┗━━━┳━━━ type: operator
+        ┣━━━ value: and
+        ┣━━━┳━━━ type: identifier 
+        ┃   ┣━━━ value: captainId
+        ┃   ┗━━━┳━━━ type: literal
+        ┃       ┗━━━ value: kaaaaaaaahn@botany-bay.com
+        ┗━━━┳━━━ type: operator
+            ┣━━━ value: or
+            ┣━━━┳━━━ type: identifier
+            ┃   ┣━━━ value: captainId
+            ┃   ┗━━━┳━━━ type: literal
+            ┃       ┗━━━ value: just@sisko.com
+            ┗━━━┳━━━ type: operator
+                ┣━━━ value: and
+                ┣━━━┳━━━ type: identifier
+                ┃   ┣━━━ value: captainId
+                ┃   ┗━━━┳━━━ type: literal
+                ┃       ┗━━━ value: earlGrayHot@chateau-picard.com
+                ┗━━━┳━━━ type: operator
+                    ┣━━━ value: or
+                    ┗━━━┳━━━ type: identifier
+                        ┣━━━ value: captainId
+                        ┗━━━┳━━━ type: literal
+                            ┗━━━ value: janeway@coffee-chaos.com
 */
 
 const interpreter = new Interpreter(testString).start();
