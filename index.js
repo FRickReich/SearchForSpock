@@ -32,7 +32,6 @@ const testString = `
 /* 
     PREDICTION:
     ┳
-    ┃
     ┣━━━┳━━━ type: identifier
     ┃   ┣━━━ value: captainId
     ┃   ┗━━━┳━━━ type: literal
@@ -65,3 +64,63 @@ const testString = `
 
 const interpreter = new Interpreter(testString).start();
 console.log(interpreter);
+
+/*
+OUTPUT:
+[{
+    "type": "identifier",
+    "value": "captainId",
+    "children": [{
+        "type": "literal",
+        "value": "james.kirk@starfleet.com",
+    }]
+},
+{
+    "type": "operator",
+    "value": "and",
+    "children": [{
+        "type": "identifier",
+        "value": "captainId",
+        "children": [{
+            "type": "literal",
+            "value": "kaaaaaaaaaaaaahn@botany-bay.com",
+        }]
+    },
+    {
+        "type": "operator",
+        "value": "or",
+        "children": [{
+            "type": "identifier",
+            "value": "captainId",
+            "children": [{
+                "type": "literal",
+                "value": "just@sisko.com",
+            }]
+        },
+        {
+            "type": "operator",
+            "value": "and",
+            "children": [{
+                "type": "identifier",
+                "value": "captainId",
+                "children": [{
+                    "type": "literal",
+                    "value": "earlGrayHot@chateau-picard.com",
+                }]
+            },
+            {
+                "type": "operator",
+                "value": "or",
+                "children": [{
+                    "type": "identifier",
+                    "value": "captainId",
+                    "children": [{
+                        "type": "literal",
+                        "value": "janeway@coffee-chaos.com",
+                    }]
+                }]
+            }]
+        }]
+    }]
+}]
+*/

@@ -29,13 +29,13 @@ class TreeBuilder
         const nodesForParent = groupNodes[ parent ];
 
         return nodesForParent ? nodesForParent.map(n => ({
-            node: {
+            //node: {
                 id: n.id,
                 type: n.type,
                 value: n.value,
                 parent: n.parent,
                 children: this.processNode(groupNodes, n.id)
-            }
+            //}
         }))
         :
         [  ];
