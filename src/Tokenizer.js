@@ -32,22 +32,22 @@ class Tokenizer
     }
 
     /* Reads input, splits it into array of characters. */
-    readInput()
+    readInput = () =>
     {
         this.letterArray = this.input.split('');
 
         this.cycleThroughInput(this.letterPosition);
 
         return this.tokens;
-    }
+    };
 
     /* Iterates throught character array, decides token type for each entry. */
-    cycleThroughInput(pos)
+    cycleThroughInput = pos =>
     {
         // Add current character to letter-list.
         this.letters += this.letterArray[ pos ];
         this.tokenPositions.push(pos);
-        
+
         switch(true)
         {
             // Current letters content equals 'and', 'or' or literal by letter:
@@ -106,44 +106,38 @@ class Tokenizer
 
             this.cycleThroughInput(this.letterPosition);
         }
-    }
+    };
 
-    skipToken()
+    skipToken = () =>
     {
         this.level = this.tokenId;
         this.tokenId ++;
-    }
+    };
 
     /* Creates token from input and pushes it to token array */
-    createToken(type, value)
+    createToken = (type, value) =>
     {
         let parentId = 0;
+
         if(type !== 'whitespace')
         {
-            if(type === 'identifier')
+            if(type === 'identifier' || type === 'literal')
             {
                 parentId = this.tokenId;
-            }
-            else if(type === 'literal')
-            {
-                parentId = this.tokenId;
-            }
-            else if(type === 'operator')
+            } else if(type === 'operator')
             {
                 parentId = this.tokenId - 2;
-            }
-            else if(type === 'seperatorLeft')
+            } else if(type === 'seperatorLeft')
             {
                 parentId = this.tokenId;
                 this.level = this.tokenId;
-            }
-            else if(type === 'seperatorRight')
+            } else if(type === 'seperatorRight')
             {
                 parentId = this.level;
             }
-            
+
             this.tokenId ++;
-            
+
             this.tokens.push({
                 id: this.tokenId,
                 type: type,
@@ -154,7 +148,7 @@ class Tokenizer
 
         this.tokenPositions = [  ];
         this.letters = '';
-    }
+    };
 }
 
 module.exports = Tokenizer;

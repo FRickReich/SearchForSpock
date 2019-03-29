@@ -16,7 +16,7 @@ class Interpreter
         this.tokens = [  ];
     }
 
-    start()
+    start = () =>
     {
         const tokenizer = new Tokenizer(this.input);
         this.tokens = tokenizer.readInput();
@@ -24,7 +24,7 @@ class Interpreter
         const treeBuilder = new TreeBuilder().createTree(this.tokens, 0);
 
         return JSON.stringify(treeBuilder);
-    }
+    };
 }
 
 module.exports = Interpreter;

@@ -2,29 +2,23 @@
 
 class TreeBuilder
 {
-    createTree(input, id)
+    createTree = (input, id) =>
     {
         const groupedByParent = this.groupByKey(input, "parent");
 
         return this.processNode(groupedByParent, id);
-    }
+    };
 
-    groupByKey(arr, key)
+    groupByKey = (arr, key) => arr.reduce((content, position) =>
     {
-        return arr.reduce((content, position) =>
-        {
-            return {
-                ...content, [ position[ key ] ]
-                :
-                [ ...(content[ position[ key ] ] || [  ]),
+        return {
+            ...content, [position[key]] : [...(content[position[key]] || []),
                     position
                 ]
-            };
-        },
-        {  });
-    }
+        };
+    }, {});
 
-    processNode(groupNodes, parent)
+    processNode = (groupNodes, parent) =>
     {
         const nodesForParent = groupNodes[ parent ];
 
@@ -39,7 +33,7 @@ class TreeBuilder
         }))
         :
         [  ];
-    }
+    };
 }
 
 module.exports = TreeBuilder;
