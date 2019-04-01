@@ -32,7 +32,7 @@ class Tokenizer
     }
 
     /* Reads input, splits it into array of characters. */
-    readInput = () =>
+    readInput()
     {
         this.letterArray = this.input.split('');
 
@@ -42,7 +42,7 @@ class Tokenizer
     };
 
     /* Iterates throught character array, decides token type for each entry. */
-    cycleThroughInput = pos =>
+    cycleThroughInput(pos)
     {
         // Add current character to letter-list.
         this.letters += this.letterArray[ pos ];
@@ -108,14 +108,14 @@ class Tokenizer
         }
     };
 
-    skipToken = () =>
+    skipToken()
     {
         this.level = this.tokenId;
         this.tokenId ++;
     };
 
     /* Creates token from input and pushes it to token array */
-    createToken = (type, value) =>
+    createToken(type, value)
     {
         let parentId = 0;
 

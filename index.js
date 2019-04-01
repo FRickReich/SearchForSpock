@@ -1,6 +1,7 @@
 'use strict';
 
 const Interpreter = require('./src/Interpreter');
+const Translator = require('./src/Translator');
 
 // AST:
 // identifier: type, startposition, endposition, value, body
@@ -15,13 +16,13 @@ const testString = `
     captainId: james.kirk@starfleet.com
     and
     (
-        captainId: kaaaaaaaaaaaaahn@botany-bay.com
+        enemyId: kaaaaaaaaaaaaahn@botany-bay.com
         or
         (
             captainId: just@sisko.com
             and
             (
-                captainId: earlGrayHot@chateau-picard.com
+                enemyId: earlGrayHot@chateau-picard.com
                 or
                 captainId: janeway@coffee-chaos.com
             )
@@ -29,8 +30,8 @@ const testString = `
     )
 `;
 
-/* 
-    PREDICTION:
+/*
+    AST PREDICTION:
     ┳
     ┣━━━┳━━━ type: identifier
     ┃   ┣━━━ value: captainId
@@ -38,8 +39,8 @@ const testString = `
     ┃       ┗━━━ value: james.kirk@starfleet.com
     ┗━━━┳━━━ type: operator
         ┣━━━ value: and
-        ┣━━━┳━━━ type: identifier 
-        ┃   ┣━━━ value: captainId
+        ┣━━━┳━━━ type: identifier
+        ┃   ┣━━━ value: enemyId
         ┃   ┗━━━┳━━━ type: literal
         ┃       ┗━━━ value: kaaaaaaaahn@botany-bay.com
         ┗━━━┳━━━ type: operator
@@ -51,7 +52,7 @@ const testString = `
             ┗━━━┳━━━ type: operator
                 ┣━━━ value: and
                 ┣━━━┳━━━ type: identifier
-                ┃   ┣━━━ value: captainId
+                ┃   ┣━━━ value: enemyId
                 ┃   ┗━━━┳━━━ type: literal
                 ┃       ┗━━━ value: earlGrayHot@chateau-picard.com
                 ┗━━━┳━━━ type: operator
@@ -60,67 +61,24 @@ const testString = `
                         ┣━━━ value: captainId
                         ┗━━━┳━━━ type: literal
                             ┗━━━ value: janeway@coffee-chaos.com
+
+    OUTPUT PREDICTION:
+    SELECT *
+    FROM captainsList
+    WHERE
+    captainId = "james.kirk@starfleet.com"
+    AND
+    enemyId = kaaaaaaaahn@botany-bay.com
+    OR
+    captainId = "just@sisko.com"
+    AND
+    enemyId = earlGreyHot@chateau-picard.com
+    OR
+    captainId = "janeway@coffee-chaos.com"
+
 */
 
 const interpreter = new Interpreter(testString).start();
-console.log(interpreter);
+//console.log(interpreter);
 
-/*
-OUTPUT:
-[{
-    "type": "identifier",
-    "value": "captainId",
-    "children": [{
-        "type": "literal",
-        "value": "james.kirk@starfleet.com",
-    }]
-},
-{
-    "type": "operator",
-    "value": "and",
-    "children": [{
-        "type": "identifier",
-        "value": "captainId",
-        "children": [{
-            "type": "literal",
-            "value": "kaaaaaaaaaaaaahn@botany-bay.com",
-        }]
-    },
-    {
-        "type": "operator",
-        "value": "or",
-        "children": [{
-            "type": "identifier",
-            "value": "captainId",
-            "children": [{
-                "type": "literal",
-                "value": "just@sisko.com",
-            }]
-        },
-        {
-            "type": "operator",
-            "value": "and",
-            "children": [{
-                "type": "identifier",
-                "value": "captainId",
-                "children": [{
-                    "type": "literal",
-                    "value": "earlGrayHot@chateau-picard.com",
-                }]
-            },
-            {
-                "type": "operator",
-                "value": "or",
-                "children": [{
-                    "type": "identifier",
-                    "value": "captainId",
-                    "children": [{
-                        "type": "literal",
-                        "value": "janeway@coffee-chaos.com",
-                    }]
-                }]
-            }]
-        }]
-    }]
-}]
-*/
+const translator = new Translator(interpreter).cycleIds();
