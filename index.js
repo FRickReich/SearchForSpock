@@ -12,6 +12,7 @@ const Translator = require('./src/Translator');
 
 // const testString = `a: james.kirk@starfleet.com and b: just@sisko.com`;
 
+/*
 const testString = `
     captainId: james.kirk@starfleet.com
     and
@@ -29,6 +30,7 @@ const testString = `
         )
     )
 `;
+*/
 
 /*
     AST PREDICTION:
@@ -78,7 +80,31 @@ const testString = `
 
 */
 
-const interpreter = new Interpreter(testString).start();
-//console.log(interpreter);
+const testString = `captainId: pikedypikepike@starfleet.com and ( starshipId: 1701 or planetID: TalosIV )`;
 
+/*
+    AST PREDICTION:
+    ┳
+    ┣━━━┳━━━ type: identifier
+    ┃   ┣━━━ value: captainId
+    ┃   ┗━━━┳━━━ type: literal
+    ┃       ┗━━━ value: robby.april@starfleet.com
+    ┗━━━┳━━━ type: operator
+        ┣━━━ value: and
+        ┣━━━┳━━━ type: identifier
+        ┃   ┣━━━ value: starshipId
+        ┃   ┗━━━┳━━━ type: literal
+        ┃       ┗━━━ value: 1701
+        ┗━━━┳━━━ type: operator
+            ┣━━━ value: or
+            ┗━━━┳━━━ type: identifier
+                ┣━━━ value: planetID
+                ┗━━━┳━━━ type: literal
+                    ┗━━━ value: TalosIV
+ */
+
+const interpreter = new Interpreter(testString).start();
 const translator = new Translator(interpreter).cycleIds();
+
+//console.log(JSON.stringify(interpreter));
+console.log(translator);

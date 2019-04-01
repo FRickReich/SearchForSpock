@@ -6,6 +6,7 @@ class Translator
     {
         this.input = input;
         this.sentence = '';
+        this.target = 'customer';
     }
 
     findById(item, id)
@@ -67,41 +68,48 @@ class Translator
 
     cycleIds()
     {
-        for(let i = 1; i < 100; i++)
+        for(let i = 1; i < 10000; i++)
         {
             if(this.findById(this.input, i))
             {
-                const type = this.findByIdReturnProperty(this.input, "id", i, "type");
-                const value = this.findByIdReturnProperty(this.input, "id", i, "value");
+                const type = this.findByIdReturnProperty(this.input, 'id', i, 'type');
+                const value = this.findByIdReturnProperty(this.input, 'id', i, 'value');
 
-                if(type == "identifier")
+                switch(type)
                 {
-                    this.sentence += value
+                    case 'identifier':
+                        this.sentence += value
+                        break;
+                    case 'literal':
+                        if(/^\d+$/.test(value))
+                        {
+                            this.sentence += ` = ${value}`
+                        }
+                        else
+                        {
+                            this.sentence += ` = '${value}'`
+                        }
+                        break;
+                    case 'operator':
+                        if(value === 'and')
+                        {
+                            this.sentence += ' AND '
+                        }
+                        else if(value === 'or')
+                        {
+                            this.sentence += ')\nOR\n('
+                        }
+                        break;
                 }
-                if(type == "literal")
-                {
-                    this.sentence += ` = "${value}"`
-                }
-                if(type == "operator" && value == "and")
-                {
-                    this.sentence += "\nAND\n"
-                }
-                if(type == "operator" && value == "or")
-                {
-                    this.sentence += "\nOR\n"
-                }
-
             }
         }
 
-        console.log(this.createOutput());
+        return this.createOutput();
     }
 
     createOutput()
     {
-        const output = `SELECT *\nFROM\n${this.sentence};`;
-
-        return output;
+        return `SELECT *\nFROM ${this.target}\nWHERE\n(${this.sentence});`;
     }
 }
 
