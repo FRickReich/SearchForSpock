@@ -66,36 +66,36 @@ class Translator
         return (returnprop) ? result[returnprop] : result;
     }
 
-    cycleIds()
+    /*
+    cycleTokens()
     {
         for(let i = 1; i < 10000; i++)
         {
             if(this.findById(this.input, i))
             {
-                const type = this.findByIdReturnProperty(this.input, 'id', i, 'type');
-                const value = this.findByIdReturnProperty(this.input, 'id', i, 'value');
+                const node = this.findById(this.input, i);
 
-                switch(type)
+                switch(node.type)
                 {
                     case 'identifier':
-                        this.sentence += value
+                        this.sentence += node.value;
                         break;
                     case 'literal':
-                        if(/^\d+$/.test(value))
+                        if(/^\d+$/.test(node.value))
                         {
-                            this.sentence += ` = ${value}`
+                            this.sentence += ` = ${node.value}`
                         }
                         else
                         {
-                            this.sentence += ` = '${value}'`
+                            this.sentence += ` = '${node.value}'`
                         }
                         break;
                     case 'operator':
-                        if(value === 'and')
+                        if(node.value === 'and')
                         {
                             this.sentence += ' AND '
                         }
-                        else if(value === 'or')
+                        else if(node.value === 'or')
                         {
                             this.sentence += ')\nOR\n('
                         }
@@ -110,6 +110,63 @@ class Translator
     createOutput()
     {
         return `SELECT *\nFROM ${this.target}\nWHERE\n(${this.sentence});`;
+    }
+    */
+
+    cycleTokens()
+    {
+        for(let i = 1; i < 10000; i++)
+        {
+            if(this.findById(this.input, i))
+            {
+                const node = this.findById(this.input, i);
+
+                switch(node.type)
+                {
+                    case 'identifier':
+                        // e.G.: id, userId, customerId, supplierId, createdOn.
+
+                        break;
+
+                    case 'literal':
+                        // e.G.: 12345, captain-kirk@enterprise.com, Date
+
+                        if(/^\d+$/.test(node.value))
+                        {
+                            // literal numeric.
+                        }
+                        else
+                        {
+                            // literal string.
+                        }
+
+                        break;
+
+                    case 'operator':
+
+                        if(node.value === 'and')
+                        {
+                            // AND operator.
+                        }
+                        else if(node.value === 'or')
+                        {
+                            // OR operator.
+                        }
+
+                        break;
+                    default:
+                        this.cycleTokens();
+                        break;
+                }
+            }
+        }
+
+        return this.createOutput();
+    }
+
+    createOutput()
+    {
+        return "test";
     }
 }
 

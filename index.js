@@ -104,7 +104,7 @@ const testString = `captainId: pikedypikepike@starfleet.com and ( starshipId: 17
  */
 
 const interpreter = new Interpreter(testString).start();
-const translator = new Translator(interpreter).cycleIds();
+const translator = new Translator(interpreter).cycleTokens();
 
 //console.log(JSON.stringify(interpreter));
 console.log(translator);
