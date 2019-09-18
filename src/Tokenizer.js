@@ -1,14 +1,18 @@
 'use strict';
 
-/*
-    The tokenizer takes the input string from the Interpreter and
-    creates an array out of every character.
-    It then creates sorts each input according to its type and
-    content and creates json objects out of it.
-*/
-
+/**
+ * Takes the input string from the Interpreter and
+ * creates an array out of every character.
+ * Then sorts each input according to its type and
+ * content and creates a json object.
+ * @class Tokenizer
+ */
 class Tokenizer
 {
+    /**
+     * @constructor
+     * @param { string } input 
+     */
     constructor(input)
     {
         this.input = input;
@@ -31,7 +35,11 @@ class Tokenizer
         }
     }
 
-    /* Reads input, splits it into array of characters. */
+    /**
+     * Reads input, splits it into array of characters.
+     * @method readInput
+     * @returns { array }
+     */
     readInput()
     {
         this.letterArray = this.input.split('');
@@ -41,7 +49,11 @@ class Tokenizer
         return this.tokens;
     };
 
-    /* Iterates throught character array, decides token type for each entry. */
+    /**
+     * Iterates throught character array, decides token type for each entry.
+     * @method cycleThroughInput
+     * @param { number } pos 
+     */
     cycleThroughInput(pos)
     {
         // Add current character to letter-list.
@@ -108,13 +120,22 @@ class Tokenizer
         }
     };
 
+    /**
+     * Used to skip a token if apropiate.
+     * @method skipToken
+     */
     skipToken()
     {
         this.level = this.tokenId;
         this.tokenId ++;
     };
 
-    /* Creates token from input and pushes it to token array */
+    /**
+     * Creates token from input and pushes it to token array.
+     * @method createToken
+     * @param { string } type 
+     * @param { string } value 
+     */
     createToken(type, value)
     {
         let parentId = 0;
@@ -136,7 +157,7 @@ class Tokenizer
                 parentId = this.level;
             }
 
-            this.tokenId ++;
+            this.tokenId++;
 
             this.tokens.push({
                 id: this.tokenId,

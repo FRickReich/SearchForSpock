@@ -1,7 +1,14 @@
 'use strict';
 
+/**
+ * @class Translator
+ */
 class Translator
 {
+    /**
+     * @constructor
+     * @param { array } input 
+     */
     constructor(input)
     {
         this.input = input;
@@ -9,6 +16,12 @@ class Translator
         this.target = 'customer';
     }
 
+    /**
+     * @method findById
+     * @param { array } item
+     * @param { number } id
+     * @returns { object }
+     */
     findById(item, id)
     {
         let result;
@@ -35,84 +48,10 @@ class Translator
         return result;
     }
 
-    findByIdReturnProperty(item, prop, val, returnprop)
-    {
-        let result;
-        let p;
-
-        if(item == null)
-        {
-            return false;
-        }
-
-        if(item[prop] === val)
-        {
-            return (returnprop) ? item[returnprop] : item;
-        }
-
-        for (p in item)
-        {
-            if( item.hasOwnProperty(p) && typeof item[p] === 'object' )
-            {
-                result = this.findByIdReturnProperty(item[p], prop, val);
-
-                if(result)
-                {
-                    return (returnprop) ? result[returnprop] : result;
-                }
-            }
-        }
-
-        return (returnprop) ? result[returnprop] : result;
-    }
-
-    /*
-    cycleTokens()
-    {
-        for(let i = 1; i < 10000; i++)
-        {
-            if(this.findById(this.input, i))
-            {
-                const node = this.findById(this.input, i);
-
-                switch(node.type)
-                {
-                    case 'identifier':
-                        this.sentence += node.value;
-                        break;
-                    case 'literal':
-                        if(/^\d+$/.test(node.value))
-                        {
-                            this.sentence += ` = ${node.value}`
-                        }
-                        else
-                        {
-                            this.sentence += ` = '${node.value}'`
-                        }
-                        break;
-                    case 'operator':
-                        if(node.value === 'and')
-                        {
-                            this.sentence += ' AND '
-                        }
-                        else if(node.value === 'or')
-                        {
-                            this.sentence += ')\nOR\n('
-                        }
-                        break;
-                }
-            }
-        }
-
-        return this.createOutput();
-    }
-
-    createOutput()
-    {
-        return `SELECT *\nFROM ${this.target}\nWHERE\n(${this.sentence});`;
-    }
-    */
-
+    /**
+     * @method cycleTokens
+     * @return { function }
+     */
     cycleTokens()
     {
         for(let i = 1; i < 10000; i++)
@@ -164,6 +103,10 @@ class Translator
         return this.createOutput();
     }
 
+    /**
+     * @method createOutput
+     * @returns { string }
+     */
     createOutput()
     {
         return "test";

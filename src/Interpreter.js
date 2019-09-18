@@ -3,20 +3,28 @@
 const Tokenizer = require('./Tokenizer');
 const TreeBuilder = require('./TreeBuilder');
 
-/*
-    This is the starting point of the language interpreter,
-    it catches the input and passes it on to the tokenizer and
-    hands the parsed output to a return statement as json object.
-*/
-
+/**
+ * Starting point of the language interpreter.
+ * Catches the input and passes it to the tokenizer to
+ * return the parsed output as json object.
+ * @class Interpreter
+ */
 class Interpreter
 {
+    /**
+     * @constructor
+     * @param { string } input 
+     */
     constructor(input)
     {
         this.input = input;
         this.tokens = [  ];
     }
 
+    /**
+     * Starts the Interpreter.
+     * @method start
+     */
     start()
     {
         const tokenizer = new Tokenizer(this.input);
@@ -24,7 +32,7 @@ class Interpreter
 
         const treeBuilder = new TreeBuilder().createTree(this.tokens, 0);
 
-        ////return JSON.stringify(treeBuilder);
+        //return JSON.stringify(treeBuilder);
         return treeBuilder;
     };
 }
